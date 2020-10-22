@@ -32,6 +32,22 @@ After that's done, we are ready to plug the flash drive in the target machine, r
 
 You will be logged in on the first virtual console as the **root** user and presented with a **zsh** shell prompt.
 
+### Set the keyboard layout
+
+The default console keymap is US, so there is no comments for now here since we will be using that one.
+
+### Verify boot mode
+
+We can quickly check if the system is booted in UEFI or BIOS mode. If the system did not boot in the mode you desired, refer to your motherboard's manual.
+
+    # ls /sys/firmware/efi/efivars
+
+If the command shows the directory without error, then the system is booted in UEFI mode.
+
+### Internet connectivity
+
+
+
 ## Installation
 
 ## Post-installation
