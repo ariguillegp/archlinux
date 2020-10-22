@@ -50,52 +50,52 @@ For some basic network troubleshooting, follow these items and ensure that you m
 
 1. Your network interface is listed and enabled. Otherwise check the device driver.
 
-   ```shell
+   ```
    # ip link
    ```
 
 2. You are connected to the network (we will check the wireless scenario in this tutorial -- wlan0 will be out network interface)
 
-   ```shell
+   ```
    # iwctl
    ```
 
-  All the following commands run inside the `iwctl` console and XXXXXXXX will be the SSID of the WiFi network we wanna connect to.
+      All the following commands run inside the `iwctl` console and XXXXXXXX will be the SSID of the WiFi network we wanna connect to.
 
-    # [iwctl]: station wlan0 show
-    # [iwctl]: station wlan0 connect XXXXXXXX
-    # Passphrase: _
-    # Ctrl + C
+       # [iwctl]: station wlan0 show
+       # [iwctl]: station wlan0 connect XXXXXXXX
+       # Passphrase: _
+       # Ctrl + C
 
 3. Your network interface has an IP address (we will consider DHCP for now).
 
-   ```shell
-   # ip a
-   ```
+   
+       # ip a
+   
 
 4. Your routing table is correctly setup.
 
-   ```shell
-   # ip r
-   ```
+   
+       # ip r
+   
 
 5. You can ping an IP on your same subnet (e.g. your default gateway).
 
-   ```shell
-   # ping <IP of default gateway>
-   ```
+   
+       # ping <IP of default gateway>
+   
 
 6. You can ping an external IP (e.g. `8.8.8.8` is a convenient one).
 
-   ```shell
-   # ping 8.8.8.8
-   ```
+   
+       # ping 8.8.8.8
+   
 
 7. You resolve domain names (e.g. `archlinux.org`)
 
-   ```shell
-   # ping archlinux.org
-   ```
+   
+       # ping archlinux.org
+   
 
 ## Installation
 
