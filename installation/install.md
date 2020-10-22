@@ -112,8 +112,7 @@ The same procedure can be followed to delete any other partition. Now the follow
 | Name | Mount Point| Partition | Partition type | Size |
 | ----:|-----------:|----------:|---------------:|-----:|
 | EFI  | /mnt/boot/ | /dev/sdb1 |  ESP           | 512MB|
-| Swap |            | /dev/sdb2 |  Swap          |   8GB|
-| Root | /mnt       | /dev/sdb2 |  Linux LVM     | 120GB|
+| Root | /mnt       | /dev/sdb2 |  Linux LVM     | 128GB|
 | Home | /mnt/home  | /dev/sda1 |  Linux LVM     | 500GB|
 
 
