@@ -228,7 +228,7 @@ This file can be used to define how disk partitions, various other block devices
 
 This is what sets the language, numbering, date and currency formats for your system.
 
-Open the file using your preferred editor and uncomment (remove the # from the start of the line) the language you prefer. I have used en_US.UTF-8.
+Open the file `/etc/locale.gen` using your preferred editor and uncomment (remove the # from the start of the line) the language you prefer. I have used en_US.UTF-8.
 
 Now generate the locale config in `/etc` directory file using the below commands one by one:
 
