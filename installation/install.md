@@ -24,7 +24,7 @@ Assuming we have the flash drive on `/dev/sdc1` and the Arch Linux ISO under `~/
 
     # dd bs=4M if=~/Downloads/archlinux-2020.10.01-x86_64.iso of=/dev/sdc status=progress && sync
 
-After that's done, we are ready to plug the flash drive on the target machine, reboot and start the installation process.
+After that's done, we are ready to plug the flash drive in the target machine, reboot and start the installation process.
 
 ## Installation
 
