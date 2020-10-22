@@ -109,9 +109,14 @@ To delete partition `/dev/sda1` for example:
 
 The same procedure can be followed to delete any other partition. Now the following table shows the partition layout:
 
-
-
-
+| Home                                                |          
+| --------------------------------------------------: |          
+| 500GB                                               |         
+                                                                                                          
+|Root                                | Swap    | Efi  |
+|----------------------------------: | -------:| ----:|
+|                               120GB| 8GB     | 512MB|
+ 
 ## Installation
 
 ## Post-installation
