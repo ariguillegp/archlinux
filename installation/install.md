@@ -281,8 +281,39 @@ Choose and install a Linux-capable boot loader. If you have an Intel or AMD CPU,
 
     # pacman -S grub efibootmgr
     # grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
+
+In the file `/etc/default/grub` edit the line `GRUB_CMDLINE_LINUX` to:
+
+    cryptdevice=UUID=device-UUID:cryptlvmroot root=/dev/vg-root/lv-root
+
+Substitute `device-UUID` with UUID of the `lv-root` device. You can find it on `etc/fstab`
+
+If you have an Intel or AMD CPU, enable microcode updates in addition.
+
+    # pacman -S intel-ucode (only for Intel CPUs)
+    # pacman -S amd-ucode (only for AMD CPUs)
+
+Generate GRUB's configuration file:
+
     # grub-mkconfig -o /boot/grub/grub.cfg
 
 ### Install desktop environment
+
+Install the windows manager first:
+
+    # pacman -S xorg
+
+Next you can install the desktop environment (Gnome) and enable the services if you want
+
+    # systemctl start gdm.service
+    # systemctl enable gdm.service
+
+Network manager is also very useful, so we will enable it as well
+
+    # systemctl enable NetworkManager.service
+
+Now you are ready to reboot and test your installation:
+
+    # reboot
 
 ## Post-installation
