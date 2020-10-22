@@ -125,33 +125,33 @@ For creating the partitions:
 
 1. EFI partition
 
-    # fdisk /dev/sdb
-    # n
-    # 1
-    # <Enter>
-    # +512M
-    # t
-    # 1
+       # fdisk /dev/sdb
+       # n
+       # 1
+       # <Enter>
+       # +512M
+       # t
+       # 1
 
 2. Root and Swap
 
-    # fdisk /dev/sdb
-    # n
-    # 2
-    # <Enter>
-    # <Enter>
-    # t
-    # 30
+       # fdisk /dev/sdb
+       # n
+       # 2
+       # <Enter>
+       # <Enter>
+       # t
+       # 30
 
 3. Home
 
-    # fdisk /dev/sda
-    # n
-    # 1
-    # <Enter>
-    # <Enter>
-    # t
-    # 30
+       # fdisk /dev/sda
+       # n
+       # 1
+       # <Enter>
+       # <Enter>
+       # t
+       # 30
 
 ## Installation
 
