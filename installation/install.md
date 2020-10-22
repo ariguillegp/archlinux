@@ -109,9 +109,13 @@ To delete partition `/dev/sda1` for example:
 
 The same procedure can be followed to delete any other partition. Now the following table shows the partition layout:
 
+Data disk
+
 | Home /dev/sda1                                      |
 | --------------------------------------------------: |
 | 500GB                                               |
+
+Root disk
 
 |Root /dev/sdb2                      | Swap /dev/sdb2 | Efi /dev/sdb1 |
 |----------------------------------: | --------------:| -------------:|
