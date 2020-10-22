@@ -20,7 +20,7 @@ If there is no output, that's a sign the image was somehow altered and it should
 
 ### Prepare installation medium
 
-Assuming we have the flash drive on /dev/sdc1 and the Arch Linux ISO under ~/Downloads/, we can copy all the data to the flash drive using the following command:
+Assuming we have the flash drive on `/dev/sdc1` and the Arch Linux ISO under `~/Downloads/`, we can copy all the data to the flash drive using the following command:
 
     # dd bs=4M if=~/Downloads/archlinux-2020.10.01-x86_64.iso of=/dev/sdc status=progress && sync
 
