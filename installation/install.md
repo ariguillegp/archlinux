@@ -8,7 +8,7 @@ Arch Linux should run on any x86_64-compatible machine with a minimum of 512 MiB
 
 ### Get an installation image
 
-We will be installing the OS from an ISO image written to a USB drive. In order to get the ISO file visit [Downloads](https://www.archlinux.org/download/) and don't forget to get the checksums file too.
+We will be installing the OS from an ISO image written to a USB flash drive. In order to get the ISO file visit [Downloads](https://www.archlinux.org/download/) and don't forget to get the checksums file too.
 
 ### Verify SHA1 checksum
 
@@ -19,6 +19,12 @@ It is highly recomended to verify the image's checksum before use. We don't wann
 If there is no output, that's a sign the image was somehow altered and it should not be used.
 
 ### Prepare installation medium
+
+Assuming we have the flash drive on /dev/sdc1 and the Arch Linux ISO under ~/Downloads/, we can copy all the data to the flash drive using the following command:
+
+    # dd bs=4M if=~/Downloads/archlinux-2020.10.01-x86_64.iso of=/dev/sdc status=progress && sync
+
+After that's done, we are ready to plug the flash drive on the target machine, reboot and start the installation process.
 
 ## Installation
 
