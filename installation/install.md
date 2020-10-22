@@ -159,35 +159,112 @@ Now we will encrypt the root and home partitions before creating any of the logi
     # cryptsetup open /dev/sdb2 cryptlvmroot
     # cryptsetup luksFormat /dev/sda1
     # cryptsetup open /dev/sda1 cryptlvmhome
-    
+
 After both devices were encrypted and opened we can proceed on creating the lvm structures:
 
     # pvcreate /dev/mapper/cryptlvmroot
     # vgcreate vg-root /dev/mapper/cryptlvmroot
     # lvcreate -L 4G vg-root -n lv-swap
     # lvcreate -l 100%FREE vg-root -n lv-root
-    
+
     # pvcreate /dev/mapper/cryptlvmhome
     # vgcreate vg-home /dev/mapper/cryptlvmhome
     # lvcreate -l 100%FREE vg-home -n lv-home
-    
+
 Next we will format and mount all the volumes we've created:
 
     # mkfs.ext4 /dev/vg-root/lv-root
     # mkfs.ext4 /dev/vg-home/lv-home
     # mkswap /dev/vg-root/lv-swap
-    
+
     # mount /dev/vg-root/lv-root /mnt
     # mkdir /mnt/home; mount /dev/vg-home/lv-home !$
     # swapon /dev/vg-root/lv-swap
-    
+
 As out last step in this section we will prepare the boot(EFI) partition
 
     # mkfs.fat -F32 /dev/sdb1
-    # mkdir /mnt/boot; mount /dev/sdb1 !$ 
+    # mkdir /mnt/boot; mount /dev/sdb1 !$
 
 ## Installation
 
+### Select the appropriate mirror
+
+Sometimes downloads from mirrors are way to slow, that’s because the mirrorlist (located in /etc/pacman.d/mirrorlist) has a huge number of mirrors but not in a good order. The top mirror is chosen automatically and it may not always be a good choice.
+
+Thankfully, there is a fix for that. First sync the pacman repository so that you can download and install software:
+
+    # pacman -Syy
+
+Now, install reflector too that you can use to list the fresh and fast mirrors located in your country:
+
+    # pacman -S reflector
+
+Create a backup of the mirrors list, just in case anything goes sideways
+
+    # cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+
+Now, get the good mirror list with reflector and save it to mirrorlist. You can change the country from US to your own country.
+
+    # reflector -c "US" -f 12 -l 10 -n 12 --save /etc/pacman.d/mirrorlist
+
+### Install base system
+
+The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
+
+    # pacstrap /mnt base linux linux-firmware vim openssh git mkinitcpio lvm2
+
+### Generate fstab file
+
+This file can be used to define how disk partitions, various other block devices, or remote filesystems should be mounted into the filesystem. Generate an fstab file (use `-U` or `-L` to define by UUID or labels, respectively):
+
+    # genfstab -U /mnt >> /mnt/etc/fstab
+
+### Using the installed system
+
+    # arch-chroot /mnt
+
+### Setup Localization
+
+This is what sets the language, numbering, date and currency formats for your system.
+
+Open the file using your preferred editor and uncomment (remove the # from the start of the line) the language you prefer. I have used en_US.UTF-8.
+
+Now generate the locale config in `/etc` directory file using the below commands one by one:
+
+    # locale-gen
+    # echo LANG=en_US.UTF-8 > /etc/locale.conf
+    # export LANG=en_US.UTF-8
+
+Both locale and timezone settings can be changed later on as well when you are using your Arch Linux system.
+
+### Network configuration
+
+Create the `/etc/hostname` file:
+
+    # echo "myhostname" > /etc/hostname
+
+Add matching entries to `/etc/hosts` file:
+
+    127.0.0.1 localhost
+    ::1 localhost
+    127.0.1.1 myhostname.localdomain myhostname
+
+
+### Create regular user with sudo privileges
+
+    # pacman -S sudo
+    # useradd -m -g users -G wheel -s myusername
+    # passwd myusername
+    # visudo
+    uncomment %wheel ALL=(ALL) ALL
+
+### Set root password
+
+    # passwd
+
+### Setup initramfs
 ### Prepare bootloader
+### Install desktop environment
 
 ## Post-installation
