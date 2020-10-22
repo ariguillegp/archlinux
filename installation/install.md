@@ -212,7 +212,7 @@ Now, get the good mirror list with reflector and save it to mirrorlist. You can 
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
 
-    # pacstrap /mnt base linux linux-firmware vim openssh git mkinitcpio lvm2
+    # pacstrap /mnt base linux linux-headers linux-firmware linux-lts linux-lts-headers base-devel vim openssh git mkinitcpio lvm2
 
 ### Generate fstab file
 
@@ -270,11 +270,19 @@ Creating a new initramfs is usually not required, because mkinitcpio was run on 
 
 Now you need to go to the `/etc/mkinitcpio.conf` file, find the uncommented `HOOKS` array and add `encrypt` and `lvm2` in between `block` and `filesystems`
 
-Assuming you only have the `linux` kernel so far, you need to run this:
+We previously installed `linux` and `linux-lts` kernels, so we need to run this:
 
     # mkinitcpio -p linux
+    # mkinitcpio -p linux-lts
 
 ### Prepare bootloader
+
+Choose and install a Linux-capable boot loader. If you have an Intel or AMD CPU, enable `microcode` updates in addition.
+
+    # pacman -S grub efibootmgr
+    # grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
+    # grub-mkconfig -o /boot/grub/grub.cfg
+
 ### Install desktop environment
 
 ## Post-installation
