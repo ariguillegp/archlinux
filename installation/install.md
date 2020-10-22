@@ -26,6 +26,12 @@ Assuming we have the flash drive on `/dev/sdc1` and the Arch Linux ISO under `~/
 
 After that's done, we are ready to plug the flash drive in the target machine, reboot and start the installation process.
 
+### Boot the live environment
+
+> **NOTE:** Arch Linux installation images do not support **Secure Boot**, so you need to disable it before booting from the flash drive. It can be enabled afterwards.
+
+You will be logged in on the first virtual console as the **root** user and presented with a **zsh** shell prompt.
+
 ## Installation
 
 ## Post-installation
