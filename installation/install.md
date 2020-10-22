@@ -253,7 +253,7 @@ Add matching entries to `/etc/hosts` file:
 ### Create regular user with sudo privileges
 
     # pacman -S sudo
-    # useradd -m -g users -G wheel -s myusername
+    # useradd -m -g users -G wheel -s /bin/bash myusername
     # passwd myusername
     # visudo
     => uncomment %wheel ALL=(ALL) ALL
