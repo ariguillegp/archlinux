@@ -153,7 +153,33 @@ For creating the partitions:
        # p
        # w
 
+Now we will encrypt the root and home partitions before creating any of the logical volumes that will go over there.
 
+    # cryptsetup luksFormat /dev/sdb2
+    # cryptsetup open /dev/sdb2 cryptlvmroot
+    # cryptsetup luksFormat /dev/sda1
+    # cryptsetup open /dev/sda1 cryptlvmhome
+    
+After both devices were encrypted and opened we can proceed on creating the lvm structures:
+
+    # pvcreate /dev/mapper/cryptlvmroot
+    # vgcreate vg-root /dev/mapper/cryptlvmroot
+    # lvcreate -L 4G vg-root -n lv-swap
+    # lvcreate -l 100%FREE vg-root -n lv-root
+    
+    # pvcreate /dev/mapper/cryptlvmhome
+    # vgcreate vg-home /dev/mapper/cryptlvmhome
+    # lvcreate -l 100%FREE vg-home -n lv-home
+    
+Next we will format and mount all the volumes we've created:
+
+    # mkfs.ext4 /dev/vg-root/lv-root
+    # mkfs.ext4 /dev/vg-home/lv-home
+    # mkswap /dev/vg-root/lv-swap
+    
+    # mount /dev/vg-root/lv-root /mnt
+    # mkdir /mnt/home; mount /dev/vg-home/lv-home /mnt/home
+    # swapon /dev/vg-root/lv-swap
 
 ## Installation
 
