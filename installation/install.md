@@ -12,7 +12,7 @@ We will be installing the OS from an ISO image written to a USB drive. In order 
 
 ### Verify SHA1 checksum
 
-It is highly recomended to verify the image's checksum before use. We don't wanna end up with a malicious image. Let's assume that sha1sums.txt is the file with the sha1 checksums and archlinux-2020.10.01-x86_64.iso is our ISO image. The verification can be done like this:
+It is highly recomended to verify the image's checksum before use. We don't wanna end up with a malicious image. Let's assume that `sha1sums.txt` is the file with the sha1 checksums and `archlinux-2020.10.01-x86_64.iso` is our ISO image. The verification can be done like this:
 
     # cat sha1sums.txt | egrep "$(sha1sum archlinux-2020.10.01-x86_64.iso)"
 
