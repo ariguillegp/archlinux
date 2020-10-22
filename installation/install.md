@@ -69,33 +69,47 @@ For some basic network troubleshooting, follow these items and ensure that you m
 
 3. Your network interface has an IP address (we will consider DHCP for now).
 
-   
+
        # ip a
-   
+
 
 4. Your routing table is correctly setup.
 
-   
+
        # ip r
-   
+
 
 5. You can ping an IP on your same subnet (e.g. your default gateway).
 
-   
+
        # ping <IP of default gateway>
-   
+
 
 6. You can ping an external IP (e.g. `8.8.8.8` is a convenient one).
 
-   
+
        # ping 8.8.8.8
-   
+
 
 7. You resolve domain names (e.g. `archlinux.org`)
 
-   
+
        # ping archlinux.org
-   
+
+### Update the system clock
+
+Let's use NTP for better accuracy
+
+    # timedatectl set-ntp true
+
+### Partition the disks
+
+When recognized by the live system, disks are assigned to a block device such as `/dev/sda`, `/dev/nvme0n1` or `/dev/mmcblk0`. To identify these devices, use `lsblk` or `fdisk`.
+
+    # fdisk -l
+
+Results ending in `rom`, `loop` or `airoot` may be ignored.
+
 
 ## Installation
 
