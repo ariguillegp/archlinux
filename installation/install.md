@@ -250,20 +250,30 @@ Add matching entries to `/etc/hosts` file:
     ::1 localhost
     127.0.1.1 myhostname.localdomain myhostname
 
-
 ### Create regular user with sudo privileges
 
     # pacman -S sudo
     # useradd -m -g users -G wheel -s myusername
     # passwd myusername
     # visudo
-    uncomment %wheel ALL=(ALL) ALL
+    => uncomment %wheel ALL=(ALL) ALL
 
 ### Set root password
 
     # passwd
 
 ### Setup initramfs
+
+Creating a new initramfs is usually not required, because mkinitcpio was run on installation of the kernel package with pacstrap. For LVM and system encryption we need to modify the `/etc/mkinitcpio.conf` file and recreate the initramfs image for every kernel installed on the system
+
+> **NOTE:** Order is important when setting the HOOKS array.
+
+Now you need to go to the `/etc/mkinitcpio.conf` file, find the uncommented `HOOKS` array and add `encrypt` and `lvm2` in between `block` and `filesystems`
+
+Assuming you only have the `linux` kernel so far, you need to run this:
+
+    # mkinitcpio -p linux
+
 ### Prepare bootloader
 ### Install desktop environment
 
