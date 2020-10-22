@@ -109,17 +109,13 @@ To delete partition `/dev/sda1` for example:
 
 The same procedure can be followed to delete any other partition. Now the following table shows the partition layout:
 
-Data disk
+| Name | Mount Point| Partition | Partition type | Size |
+| -----------------------------------------------------:|
+| EFI  | /mnt/boot/ | /dev/sdb1 |  ESP           | 512MB|
+| Swap |            | /dev/sdb2 |  Swap          |   8GB|
+| Root | /mnt       | /dev/sdb2 |  Linux LVM     | 120GB|
+| Home | /mnt/home  | /dev/sda1 |  Linux LVM     | 500GB|
 
-| Home /dev/sda1                                      |
-| --------------------------------------------------: |
-| 500GB                                               |
-
-Root disk
-
-|Root /dev/sdb2                      | Swap /dev/sdb2 | Efi /dev/sdb1 |
-|----------------------------------: | --------------:| -------------:|
-|                               120GB| 8GB            |          512MB|
 
 For creating the partitions:
 
@@ -132,6 +128,7 @@ For creating the partitions:
        # +512M
        # t
        # 1
+       # p
 
 2. Root and Swap
 
@@ -142,6 +139,8 @@ For creating the partitions:
        # <Enter>
        # t
        # 30
+       # p
+       # w
 
 3. Home
 
@@ -152,6 +151,10 @@ For creating the partitions:
        # <Enter>
        # t
        # 30
+       # p
+       # w
+
+
 
 ## Installation
 
