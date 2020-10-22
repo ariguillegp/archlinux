@@ -57,10 +57,11 @@ For some basic network troubleshooting, follow these items and ensure that you m
     ```# iwctl```
 
   All the following commands run inside the `iwctl` console and XXXXXXXX will be the SSID of the WiFi network we wanna connect to.
-    ```[iwctl]# station wlan0 show
-    [iwctl]# station wlan0 connect XXXXXXXX
-    Passphrase: _
-    Ctrl + C```
+
+    ```[iwctl]# station wlan0 show```
+    ```[iwctl]# station wlan0 connect XXXXXXXX```
+    ```Passphrase: _```
+    ```Ctrl + C```
 
 3. Your network interface has an IP address (we will consider DHCP for now).
 
