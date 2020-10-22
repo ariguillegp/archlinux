@@ -100,6 +100,7 @@ Results ending in `rom`, `loop` or `airoot` may be ignored.
 Now assuming you have a backup of all your files, we are going to delete all the partitions on the machine's hard drives. Our system has 2 hard drives: one will be used for the root partition and the other one for regular user data. Both drives will be encrypted with LVM on LUKS.
 
 To delete partition `/dev/sda1` for example:
+
     # fdisk /dev/sda
     # m
     # d
