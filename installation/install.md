@@ -8,7 +8,7 @@ Arch Linux should run on any x86_64-compatible machine with a minimum of 512 MiB
 
 ### Get an installation image
 
-We will be installing the OS from an ISO image written to a USB drive. In order to get the ISO file visit [Downloads](https://www.archlinux.org/download/) and don't forget to get the PGP signature file too.
+We will be installing the OS from an ISO image written to a USB drive. In order to get the ISO file visit [Downloads](https://www.archlinux.org/download/) and don't forget to get the checksums file too.
 
 ### Verify SHA1 checksum
 
