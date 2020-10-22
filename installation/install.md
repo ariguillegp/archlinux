@@ -110,7 +110,7 @@ To delete partition `/dev/sda1` for example:
 The same procedure can be followed to delete any other partition. Now the following table shows the partition layout:
 
 | Name | Mount Point| Partition | Partition type | Size |
-| -----------------------------------------------------:|
+| ----:|-----------:|----------:|---------------:|-----:|
 | EFI  | /mnt/boot/ | /dev/sdb1 |  ESP           | 512MB|
 | Swap |            | /dev/sdb2 |  Swap          |   8GB|
 | Root | /mnt       | /dev/sdb2 |  Linux LVM     | 120GB|
