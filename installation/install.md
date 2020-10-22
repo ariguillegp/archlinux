@@ -178,13 +178,13 @@ Next we will format and mount all the volumes we've created:
     # mkswap /dev/vg-root/lv-swap
 
     # mount /dev/vg-root/lv-root /mnt
-    # mkdir /mnt/home; mount /dev/vg-home/lv-home !$
+    # mkdir /mnt/home; mount /dev/vg-home/lv-home /mnt/home
     # swapon /dev/vg-root/lv-swap
 
 As out last step in this section we will prepare the boot(EFI) partition
 
     # mkfs.fat -F32 /dev/sdb1
-    # mkdir /mnt/boot; mount /dev/sdb1 !$
+    # mkdir /mnt/boot; mount /dev/sdb1 /mnt/boot
 
 ## Installation
 
