@@ -55,7 +55,7 @@ For some basic network troubleshooting, follow these items and ensure that you m
 2. You are connected to the network (we will check the wireless scenario in this tutorial -- wlan0 will be out network interface)
 
        # iwctl
-   
+
       All the following commands run inside the `iwctl` console and XXXXXXXX will be the SSID of the WiFi network we wanna connect to.
 
        # [iwctl]: station wlan0 show
@@ -96,6 +96,19 @@ When recognized by the live system, disks are assigned to a block device such as
     # fdisk -l
 
 Results ending in `rom`, `loop` or `airoot` may be ignored.
+
+Now assuming you have a backup of all your files, we are going to delete all the partitions on the machine's hard drives. Our system has 2 hard drives: one will be used for the root partition and the other one for regular user data. Both drives will be encrypted with LVM on LUKS.
+
+To delete partition `/dev/sda1` for example:
+    # fdisk /dev/sda
+    # m
+    # d
+    # 1
+    # w
+
+The same procedure can be followed to delete any other partition. Now the following table shows the partition layout:
+
+
 
 
 ## Installation
