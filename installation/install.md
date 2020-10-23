@@ -179,7 +179,7 @@ After the logical volumes were created we can proceed with the encryption, forma
 
     # echo "root volume setup"
     # cryptsetup luksFormat /dev/vg-data/lv-cryptroot
-    # cryptsetup open /dev/vg-data-lv-cryptroot root
+    # cryptsetup open /dev/vg-data/lv-cryptroot root
     # mkfs.ext4 /dev/mapper/root
     # mount /dev/mapper/root /mnt
     
