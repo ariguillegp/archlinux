@@ -4,7 +4,7 @@ This document is a guide for installing Arch Linux using the live system booted 
 
 Arch Linux should run on any x86_64-compatible machine with a minimum of 512 MiB RAM, though more memory is needed to boot the live system for installation. A basic installation should take less than 2 GiB of disk space. As the installation process needs to retrieve packages from a remote repository, this guide assumes a working internet connection is available.
 
-This installation will be done on a laptop with two hard drives (SSD, HDD), UEFI boot mode, 8GB of RAM and an Intel Core i7 CPU. We will add features like tmp and swap partitions that will be wiped and re-encrypted after every reboot to avoid data leakage; the root partition will require a password to be decrypted and proceed with the boot process, and the home partition will be decrypted automatically with a key file to avoid typing two different passwords whenever we decide to login. To achieve all this, basically the partition layout will be LUKS on top of LVM.
+This installation will be done on a laptop with two hard drives (SSD, HDD), UEFI boot mode, 8GB of RAM and an Intel CPU. We will add features like tmp and swap partitions that will be wiped and re-encrypted after every reboot to avoid data leakage; the root partition will require a password to be decrypted and proceed with the boot process, and the home partition will be decrypted automatically with a key file to avoid typing two different passwords whenever we decide to login. To achieve all this, basically the partition layout will be LUKS on top of LVM.
 
 ## Pre-installation
 
@@ -111,12 +111,11 @@ To delete partition `/dev/sda1` for example:
 
 The same procedure can be followed to delete any other partition. Now the following table shows the partition layout:
 
-| Name | Mount Point| Partition | Partition type | Size |
-| ----:|-----------:|----------:|---------------:|-----:|
-| efi  | /mnt/boot/ | /dev/sdb1 |  ESP           | 512MB|
-| root | /mnt       | /dev/sdb2 |  Linux LVM     | 128GB|
-| home | /mnt/home  | /dev/sda1 |  Linux LVM     | 500GB|
-
+| Name |  Partition | Partition type | Size |
+| ----:|-----------:|---------------:|-----:|
+| efi  |  /dev/sdb1 |  ESP           | 512MB|
+| root |  /dev/sdb2 |  Linux LVM     | 128GB|
+| home |  /dev/sda1 |  Linux LVM     | 500GB|
 
 For creating the partitions:
 
@@ -131,7 +130,7 @@ For creating the partitions:
        # 1
        # p
 
-2. Root and Swap
+2. Root
 
        # fdisk /dev/sdb
        # n
@@ -154,39 +153,50 @@ For creating the partitions:
        # 30
        # p
        # w
+       
+This is what the logical volumes will look like:
 
-Now we will encrypt the root and home partitions before creating any of the logical volumes that will go over there.
+| Name         | Mount Point|     Logical Volume        |  Size    |
+| ------------:|-----------:|--------------------------:|---------:|
+| lv-cryptswap | none       | /dev/vg-data/lv-cryptswap |       8GB|
+| lv-crypttmp  | /mnt/tmp   | /dev/vg-data/lv-crypttmp  |       1GB|
+| lv-cryptroot | /mnt       | /dev/vg-data/lv-crypyroot |  100%FREE|
+| lv-crypthome | /mnt/home  | /dev/vg-data/lv=crypthome |  100%FREE|
 
-    # cryptsetup luksFormat /dev/sdb2
-    # cryptsetup open /dev/sdb2 cryptlvmroot
-    # cryptsetup luksFormat /dev/sda1
-    # cryptsetup open /dev/sda1 cryptlvmhome
+We will create the all the logical volumes before encrypting anything. The order of creation here is important since /dev/sdb is the SSD drive and I want the OS related stuff to be there for performance reasons.
 
-After both devices were encrypted and opened we can proceed on creating the lvm structures:
+    # pvcreate /dev/sdb2
+    # vgcreate vg-data /dev/sdb2
+    # lvcreate -L 8G vg-data -n lv-cryptswap
+    # lvcreate -L 1G vg-data -n lv-crypttmp
+    # lvcreate -l 100%FREE vg-data -n lv-cryptroot
+    
+    # pvcreate /dev/sda1
+    # vgextend vg-data /dev/sda1
+    # lvcreate -l 100%FREE vg-data -n lv-crypthome
+    
+After the logical volumes were created we can proceed with the encryption, formatting and mounting:
 
-    # pvcreate /dev/mapper/cryptlvmroot
-    # vgcreate vg-root /dev/mapper/cryptlvmroot
-    # lvcreate -L 4G vg-root -n lv-swap
-    # lvcreate -l 100%FREE vg-root -n lv-root
-
-    # pvcreate /dev/mapper/cryptlvmhome
-    # vgcreate vg-home /dev/mapper/cryptlvmhome
-    # lvcreate -l 100%FREE vg-home -n lv-home
-
-Next we will format and mount all the volumes we've created:
-
-    # mkfs.ext4 /dev/vg-root/lv-root
-    # mkfs.ext4 /dev/vg-home/lv-home
-    # mkswap /dev/vg-root/lv-swap
-
-    # mount /dev/vg-root/lv-root /mnt
-    # mkdir /mnt/home; mount /dev/vg-home/lv-home /mnt/home
-    # swapon /dev/vg-root/lv-swap
-
-As out last step in this section we will prepare the boot(EFI) partition
-
+    # echo "root volume setup"
+    # cryptsetup luksFormat /dev/vg-data/lv-cryptroot
+    # cryptsetup open /dev/vg-data-lv-cryptroot root
+    # mkfs.ext4 /dev/mapper/root
+    # mount /dev/mapper/root /mnt
+    
+    # echo "boot partition setup"
+    # dd if=/dev/zero of=/dev/sdb1 bs=1M status=progress
     # mkfs.fat -F32 /dev/sdb1
-    # mkdir /mnt/boot; mount /dev/sdb1 /mnt/boot
+    # mkdir /mnt/boot
+    # mount /dev/sdb1 /mnt/boot
+    
+    # echo "home volume setup"
+    # mkdir -p -m 700 /mnt/etc/luks-keys
+    # dd if=/dev/random of=/mnt/etc/luks-keys/home bs=1 count=256 status=progress
+    # cryptsetup luksFormat -v /dev/vg-data/lv-crypthome /mnt/etc/luks-keys/home
+    # cryptsetup -d /mnt/etc/luks-keys/home open /dev/vg-data/lv-crypthome home
+    # mkfs.ext4 /dev/mapper/home
+    # mkdir /mnt/home
+    # mount /dev/mapper/home /mnt/home
 
 ## Installation
 
@@ -220,7 +230,20 @@ The `base` package does not include all tools from the live installation, so ins
 
 This file can be used to define how disk partitions, various other block devices, or remote filesystems should be mounted into the filesystem. Generate an fstab file (use `-U` or `-L` to define by UUID or labels, respectively):
 
-    # genfstab -U /mnt >> /mnt/etc/fstab
+    # genfstab -L /mnt >> /mnt/etc/fstab
+    
+Also the following entries need to be added to `/mnt/etc/fstab` for the tmp and swap volumes
+
+    /dev/mapper/tmp         /tmp    tmpfs           defaults        0       0
+    /dev/mapper/swap        none    swap            sw              0       0
+    
+### Update crypttab file
+
+This file will be used to handle all the automatic encryption steps for tmp, swap and home volumes
+
+    swap	/dev/vg-data/lv-cryptswap	/dev/urandom	swap,cipher=aes-cbc-essiv:sha256,size=256
+    tmp	    /dev/vg-data/lv-crypttmp	/dev/urandom	tmp,cipher=aes-cbc-essiv:sha256,size=256
+    home	/dev/vg-data/lv-crypthome   /etc/luks-keys/home
 
 ### Using the installed system
 
@@ -272,10 +295,9 @@ Creating a new initramfs is usually not required, because mkinitcpio was run on 
 
 Now you need to go to the `/etc/mkinitcpio.conf` file, find the uncommented `HOOKS` array and add `lvm2` and `encrypt` in between `block` and `filesystems`
 
-We previously installed `linux` and `linux-lts` kernels, so we need to run this:
+We previously installed only the `linux` kernel, so we need to run this to generate the initramfs image for that kernel:
 
     # mkinitcpio -p linux
-    # mkinitcpio -p linux-lts
 
 ### Prepare bootloader
 
@@ -288,14 +310,14 @@ In the file `/etc/default/grub` edit the line `GRUB_CMDLINE_LINUX` to:
 
     cryptdevice=UUID=MyDeviceUUID:root root=/dev/mapper/root
 
-Substitute `device-UUID` with UUID of the `lv-root` device. Also uncomment the line:
+Substitute `device-UUID` with UUID of the `lv-cryptroot` device. Also uncomment the line:
 
     # GRUB_ENABLE_CRYPTODISK=y
 
 If you have an Intel or AMD CPU, enable microcode updates in addition.
 
-    # pacman -S intel-ucode (only for Intel CPUs)
-    # pacman -S amd-ucode (only for AMD CPUs)
+    # pacman -S intel-ucode 
+    # pacman -S amd-ucode 
 
 Generate GRUB's configuration file:
 
