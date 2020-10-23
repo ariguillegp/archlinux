@@ -1,8 +1,10 @@
-# Arch Linux Installation Guide - 2020.10.01
+# WIP -- Arch Linux Installation Guide - 2020.10.01
 
 This document is a guide for installing Arch Linux using the live system booted from an installation medium made from an official installation image.
 
 Arch Linux should run on any x86_64-compatible machine with a minimum of 512 MiB RAM, though more memory is needed to boot the live system for installation. A basic installation should take less than 2 GiB of disk space. As the installation process needs to retrieve packages from a remote repository, this guide assumes a working internet connection is available.
+
+This installation will be done on a laptop with two hard drives (SSD, HDD), UEFI boot mode, 8GB of RAM and an Intel Core i7 CPU. We will add features like tmp and swap partitions that will be wiped and re-encrypted after every reboot to avoid data leakage; the root partition will require a password to be decrypted and proceed with the boot process, and the home partition will be decrypted automatically with a key file to avoid typing two different passwords whenever we decide to login. To achieve all this, basically the partition layout will be LUKS on top of LVM.
 
 ## Pre-installation
 
@@ -178,13 +180,13 @@ Next we will format and mount all the volumes we've created:
     # mkswap /dev/vg-root/lv-swap
 
     # mount /dev/vg-root/lv-root /mnt
-    # mkdir /mnt/home; mount /dev/vg-home/lv-home !$
+    # mkdir /mnt/home; mount /dev/vg-home/lv-home /mnt/home
     # swapon /dev/vg-root/lv-swap
 
 As out last step in this section we will prepare the boot(EFI) partition
 
     # mkfs.fat -F32 /dev/sdb1
-    # mkdir /mnt/boot; mount /dev/sdb1 !$
+    # mkdir /mnt/boot; mount /dev/sdb1 /mnt/boot
 
 ## Installation
 
@@ -212,7 +214,7 @@ Now, get the good mirror list with reflector and save it to mirrorlist. You can 
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
 
-    # pacstrap /mnt base linux linux-headers linux-firmware linux-lts linux-lts-headers base-devel vim openssh git mkinitcpio lvm2 os-prober
+    # pacstrap /mnt base linux linux-headers linux-firmware base-devel vim openssh git mkinitcpio lvm2 os-prober
 
 ### Generate fstab file
 
