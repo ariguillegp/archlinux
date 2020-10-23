@@ -310,7 +310,6 @@ Install the windows manager first:
 Next you can install the desktop environment (Gnome) and enable the services if you want
 
     # pacman -S gnome
-    # systemctl start gdm.service
     # systemctl enable gdm.service
 
 Network manager is also very useful, so we will enable it as well
