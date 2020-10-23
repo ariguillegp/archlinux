@@ -4,7 +4,7 @@ This document is a guide for installing Arch Linux using the live system booted 
 
 Arch Linux should run on any x86_64-compatible machine with a minimum of 512 MiB RAM, though more memory is needed to boot the live system for installation. A basic installation should take less than 2 GiB of disk space. As the installation process needs to retrieve packages from a remote repository, this guide assumes a working internet connection is available.
 
-This installation will be done on a laptop with two hard drives (SSD, HDD), UEFI boot mode, 8GB of RAM and an Intel CPU. We will add features like tmp and swap partitions that will be wiped and re-encrypted after every reboot to avoid data leakage; the root partition will require a password to be decrypted and proceed with the boot process, and the home partition will be decrypted automatically with a key file to avoid typing two different passwords whenever we decide to login. To achieve all this, basically the partition layout will be LUKS on top of LVM.
+This installation will be done on a laptop with two hard drives (SSD, HDD), UEFI boot mode, 8GB of RAM and an Intel CPU. We will add features like tmp and swap partitions that will be wiped and re-encrypted with a mew key after every reboot to avoid data leakages; the root partition will require a password to be decrypted and proceed with the boot process, and the home partition will be decrypted automatically with a key file to avoid typing two different passwords whenever we decide to login. To achieve all this, basically the partition layout will be LUKS on top of LVM.
 
 ## Pre-installation
 
@@ -224,7 +224,7 @@ Now, get the good mirror list with reflector and save it to mirrorlist. You can 
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
 
-    # pacstrap /mnt base linux linux-headers linux-firmware base-devel vim openssh git mkinitcpio lvm2 os-prober
+    # pacstrap /mnt base base-devel bash-completion git linux linux-headers linux-firmware lvm2 mkinitcpio openssh os-prober vim
 
 ### Generate fstab file
 
