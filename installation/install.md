@@ -239,7 +239,7 @@ Also the following entries need to be added to `/mnt/etc/fstab` for the tmp and 
     
 ### Update crypttab file
 
-This file will be used to handle all the automatic encryption steps for tmp, swap and home volumes
+This file `/mnt/etc/crypttab` will be used to handle all the automatic encryption steps for tmp, swap and home volumes
 
     swap	/dev/vg-data/lv-cryptswap	/dev/urandom	swap,cipher=aes-cbc-essiv:sha256,size=256
     tmp	    /dev/vg-data/lv-crypttmp	/dev/urandom	tmp,cipher=aes-cbc-essiv:sha256,size=256
