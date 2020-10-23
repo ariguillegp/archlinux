@@ -224,7 +224,7 @@ Now, get the good mirror list with reflector and save it to mirrorlist. You can 
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
 
-    # pacstrap /mnt base base-devel bash-completion git linux linux-headers linux-firmware lvm2 mkinitcpio openssh os-prober vim
+    # pacstrap /mnt base base-devel bash-completion git linux linux-headers linux-firmware lvm2 mkinitcpio openssh os-prober vim iw
 
 ### Generate fstab file
 
@@ -326,7 +326,7 @@ Generate GRUB's configuration file:
 
     # grub-mkconfig -o /boot/grub/grub.cfg
 
-### Install desktop environment
+### Install desktop environment (will be replaced by i3 soon)
 
 Install the windows manager first:
 
