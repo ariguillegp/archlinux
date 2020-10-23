@@ -286,7 +286,7 @@ Choose and install a Linux-capable boot loader. If you have an Intel or AMD CPU,
 
 In the file `/etc/default/grub` edit the line `GRUB_CMDLINE_LINUX` to:
 
-    cryptdevice=UUID=MyDeviceUUID:root root=/dev/vg-data/lv-cryptroot
+    cryptdevice=UUID=MyDeviceUUID:root root=/dev/mapper/root
 
 Substitute `device-UUID` with UUID of the `lv-root` device. Also uncomment the line:
 
