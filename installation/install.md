@@ -318,10 +318,9 @@ Also uncomment the line:
 
     # GRUB_ENABLE_CRYPTODISK=y
 
-If you have an Intel or AMD CPU, enable microcode updates in addition.
+If you have an Intel CPU, enable microcode updates in addition.
 
     # pacman -S intel-ucode 
-    # pacman -S amd-ucode 
 
 Generate GRUB's configuration file:
 
