@@ -286,9 +286,11 @@ Choose and install a Linux-capable boot loader. If you have an Intel or AMD CPU,
 
 In the file `/etc/default/grub` edit the line `GRUB_CMDLINE_LINUX` to:
 
-    cryptdevice=UUID=device-UUID:cryptlvmroot root=/dev/vg-root/lv-root
+    cryptdevice=UUID=MyDeviceUUID:root root=/dev/vg-data/lv-cryptroot
 
-Substitute `device-UUID` with UUID of the `lv-root` device. You can find it on `etc/fstab`
+Substitute `device-UUID` with UUID of the `lv-root` device. Also uncomment the line:
+
+    # GRUB_ENABLE_CRYPTODISK=y
 
 If you have an Intel or AMD CPU, enable microcode updates in addition.
 
