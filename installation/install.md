@@ -1,4 +1,4 @@
-# Arch Linux Installation Guide - 2020.10.01
+# WIP -- Arch Linux Installation Guide - 2020.10.01
 
 This document is a guide for installing Arch Linux using the live system booted from an installation medium made from an official installation image.
 
