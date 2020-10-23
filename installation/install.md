@@ -315,6 +315,8 @@ Network manager is also very useful, so we will enable it as well
 
 Now you are ready to reboot and test your installation:
 
+    # exit
+    # umount /mnt
     # reboot
 
 ## Post-installation
