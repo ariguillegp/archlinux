@@ -310,7 +310,11 @@ In the file `/etc/default/grub` edit the line `GRUB_CMDLINE_LINUX` to:
 
     cryptdevice=UUID=MyDeviceUUID:root root=/dev/mapper/root
 
-Substitute `device-UUID` with UUID of the `lv-cryptroot` device. Also uncomment the line:
+Substitute `MyDeviceUUID` with UUID of the `lv-cryptroot` device. It can be found with:
+
+    # blkid /dev/vg-data/lv-cryptroot
+
+Also uncomment the line:
 
     # GRUB_ENABLE_CRYPTODISK=y
 
