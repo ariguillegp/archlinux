@@ -1,4 +1,4 @@
-# WIP -- Arch Linux Installation Guide - 2020.10.01
+# Arch Linux Installation Guide (LUKS on LVM) - 2020.10.01
 
 This document is a guide for installing Arch Linux using the live system booted from an installation medium made from an official installation image.
 
@@ -349,3 +349,13 @@ Now you are ready to reboot and test your installation:
     # reboot
 
 ## Post-installation
+
+TBD ... 
+
+## Based on
+
+* [Arch Linux Installation Guide](https://wiki.archlinux.org/index.php/Installation_guide)
+* [Arch Linux LUKS on LVM](https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LUKS_on_LVM)
+* [How to Install Arch Linux](https://itsfoss.com/install-arch-linux/)
+* [mjnaderi](https://gist.github.com/mjnaderi/28264ce68f87f52f2cabb823a503e673)
+* [huntrar](https://gist.github.com/huntrar/e42aee630bee3295b2c671d098c81268)
