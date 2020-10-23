@@ -270,7 +270,7 @@ Creating a new initramfs is usually not required, because mkinitcpio was run on 
 
 > **NOTE:** Order is important when setting the HOOKS array.
 
-Now you need to go to the `/etc/mkinitcpio.conf` file, find the uncommented `HOOKS` array and add `encrypt` and `lvm2` in between `block` and `filesystems`
+Now you need to go to the `/etc/mkinitcpio.conf` file, find the uncommented `HOOKS` array and add `lvm2` and `encrypt` in between `block` and `filesystems`
 
 We previously installed `linux` and `linux-lts` kernels, so we need to run this:
 
