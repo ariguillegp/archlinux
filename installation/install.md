@@ -224,7 +224,7 @@ Now, get the good mirror list with reflector and save it to mirrorlist. You can 
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
 
-    # pacstrap /mnt base base-devel bash-completion git linux linux-headers linux-firmware lvm2 mkinitcpio openssh os-prober vim wpa_supplicant
+    # pacstrap /mnt base base-devel bash-completion dhcpcd git linux linux-headers linux-firmware lvm2 mkinitcpio openssh os-prober vim wpa_supplicant
 
 ### Generate fstab file
 
