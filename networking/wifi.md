@@ -46,7 +46,7 @@ Now we are connected to the wireless network but we still need an IP to be assig
 
        # systemctl enable dhcpcd@wlp1s0.service
        
-If everything went ok, we should be able to connecto automatically to the specified WiFi after the next reboot.
+If everything went ok, we should be able to connect automatically to the specified WiFi after the next reboot.
 
 ### Based on
 
