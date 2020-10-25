@@ -335,8 +335,8 @@ Now you are ready to reboot and test your installation:
 ## Post-installation
 
 1. [Networking](https://github.com/ariguillegp/archlinux/blob/main/networking/wifi.md)
-2. i3 coming soon ...
-...
+2. [i3](https://github.com/ariguillegp/archlinux/blob/main/desktop/i3.md)
+3. TBD ...
 
 ## Based on
 
