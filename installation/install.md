@@ -326,21 +326,6 @@ Generate GRUB's configuration file:
 
     # grub-mkconfig -o /boot/grub/grub.cfg
 
-### Install desktop environment (will be replaced by i3 soon)
-
-Install the windows manager first:
-
-    # pacman -S xorg
-
-Next you can install the desktop environment (Gnome) and enable the services if you want
-
-    # pacman -S gnome gnome-extra
-    # systemctl enable gdm.service
-
-Network manager is also very useful, so we will enable it as well
-
-    # systemctl enable NetworkManager.service
-
 Now you are ready to reboot and test your installation:
 
     # exit
@@ -349,7 +334,9 @@ Now you are ready to reboot and test your installation:
 
 ## Post-installation
 
-TBD ... 
+1. [Networking](https://github.com/ariguillegp/archlinux/blob/main/networking/wifi.md)
+2. i3 coming soon ...
+...
 
 ## Based on
 
