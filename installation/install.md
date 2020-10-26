@@ -153,7 +153,7 @@ For creating the partitions:
        # 30
        # p
        # w
-       
+
 This is what the logical volumes will look like:
 
 | Name         | Mount Point|     Logical Volume        |  Size    |
@@ -170,11 +170,11 @@ We will create the all the logical volumes before encrypting anything. The order
     # lvcreate -L 8G vg-data -n lv-cryptswap
     # lvcreate -L 1G vg-data -n lv-crypttmp
     # lvcreate -l 100%FREE vg-data -n lv-cryptroot
-    
+
     # pvcreate /dev/sda1
     # vgextend vg-data /dev/sda1
     # lvcreate -l 100%FREE vg-data -n lv-crypthome
-    
+
 After the logical volumes were created we can proceed with the encryption, formatting and mounting:
 
     # echo "root volume setup"
@@ -182,13 +182,13 @@ After the logical volumes were created we can proceed with the encryption, forma
     # cryptsetup open /dev/vg-data/lv-cryptroot root
     # mkfs.ext4 /dev/mapper/root
     # mount /dev/mapper/root /mnt
-    
+
     # echo "boot partition setup"
     # dd if=/dev/zero of=/dev/sdb1 bs=1M status=progress
     # mkfs.fat -F32 /dev/sdb1
     # mkdir /mnt/boot
     # mount /dev/sdb1 /mnt/boot
-    
+
     # echo "home volume setup"
     # mkdir -p -m 700 /mnt/etc/luks-keys
     # dd if=/dev/random of=/mnt/etc/luks-keys/home bs=1 count=256 status=progress
@@ -231,12 +231,12 @@ The `base` package does not include all tools from the live installation, so ins
 This file can be used to define how disk partitions, various other block devices, or remote filesystems should be mounted into the filesystem. Generate an fstab file (use `-U` or `-L` to define by UUID or labels, respectively):
 
     # genfstab -L /mnt >> /mnt/etc/fstab
-    
+
 Also the following entries need to be added to `/mnt/etc/fstab` for the tmp and swap volumes
 
     /dev/mapper/tmp         /tmp    tmpfs           defaults        0       0
     /dev/mapper/swap        none    swap            sw              0       0
-    
+
 ### Update crypttab file
 
 This file `/mnt/etc/crypttab` will be used to handle all the automatic encryption steps for tmp, swap and home volumes
@@ -320,7 +320,7 @@ Also uncomment the line:
 
 If you have an Intel CPU, enable microcode updates in addition.
 
-    # pacman -S intel-ucode 
+    # pacman -S intel-ucode
 
 Generate GRUB's configuration file:
 
@@ -335,7 +335,6 @@ Now you are ready to reboot and test your installation:
 ## Post-installation
 
 1. [Networking](https://github.com/ariguillegp/archlinux/blob/main/networking/wifi.md)
-2. [i3](https://github.com/ariguillegp/archlinux/blob/main/desktop/i3.md)
 3. TBD ...
 
 ## Based on
