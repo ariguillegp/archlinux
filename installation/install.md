@@ -114,8 +114,7 @@ The same procedure can be followed to delete any other partition. Now the follow
 | Name |  Partition | Partition type | Size |
 | ----:|-----------:|---------------:|-----:|
 | efi  |  /dev/sdb1 |  ESP           | 512MB|
-| root |  /dev/sdb2 |  Linux LVM     | 128GB|
-| home |  /dev/sda1 |  Linux LVM     | 500GB|
+| data |  /dev/sdb2 |  Linux LVM     | 500GB|
 
 For creating the partitions:
 
@@ -130,23 +129,11 @@ For creating the partitions:
        # 1
        # p
 
-2. Root
+2. Data
 
        # fdisk /dev/sdb
        # n
        # 2
-       # <Enter>
-       # <Enter>
-       # t
-       # 30
-       # p
-       # w
-
-3. Home
-
-       # fdisk /dev/sda
-       # n
-       # 1
        # <Enter>
        # <Enter>
        # t
@@ -160,7 +147,7 @@ This is what the logical volumes will look like:
 | ------------:|-----------:|--------------------------:|---------:|
 | lv-cryptswap | none       | /dev/vg-data/lv-cryptswap |       8GB|
 | lv-crypttmp  | /mnt/tmp   | /dev/vg-data/lv-crypttmp  |       1GB|
-| lv-cryptroot | /mnt       | /dev/vg-data/lv-crypyroot |  100%FREE|
+| lv-cryptroot | /mnt       | /dev/vg-data/lv-crypyroot |     150GB|
 | lv-crypthome | /mnt/home  | /dev/vg-data/lv=crypthome |  100%FREE|
 
 We will create the all the logical volumes before encrypting anything. The order of creation here is important since /dev/sdb is the SSD drive and I want the OS related stuff to be there for performance reasons.
@@ -169,10 +156,7 @@ We will create the all the logical volumes before encrypting anything. The order
     # vgcreate vg-data /dev/sdb2
     # lvcreate -L 8G vg-data -n lv-cryptswap
     # lvcreate -L 1G vg-data -n lv-crypttmp
-    # lvcreate -l 100%FREE vg-data -n lv-cryptroot
-
-    # pvcreate /dev/sda1
-    # vgextend vg-data /dev/sda1
+    # lvcreate -L 150GB vg-data -n lv-cryptroot
     # lvcreate -l 100%FREE vg-data -n lv-crypthome
 
 After the logical volumes were created we can proceed with the encryption, formatting and mounting:
@@ -202,29 +186,18 @@ After the logical volumes were created we can proceed with the encryption, forma
 
 ### Select the appropriate mirror
 
-Sometimes downloads from mirrors are way to slow, that’s because the mirrorlist (located in /etc/pacman.d/mirrorlist) has a huge number of mirrors but not in a good order. The top mirror is chosen automatically and it may not always be a good choice.
+Sometimes downloads from mirrors are way to slow, that’s because the mirrorlist (located in /etc/pacman.d/mirrorlist) has a huge number of mirrors but not in a good order. The top mirror is chosen automatically and it may not always be a good choice, but there is a solution for that: reflector
 
-Thankfully, there is a fix for that. First sync the pacman repository so that you can download and install software:
-
-    # pacman -Syy
-
-Now, install reflector too that you can use to list the fresh and fast mirrors located in your country:
-
-    # pacman -S reflector
-
-Create a backup of the mirrors list, just in case anything goes sideways
-
-    # cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
-
-Now, get the good mirror list with reflector and save it to mirrorlist. You can change the country from US to your own country.
+Get the good mirror list with reflector and save it to mirrorlist. You can change the country from US to your own country.
 
     # reflector -c "US" -f 12 -l 10 -n 12 --save /etc/pacman.d/mirrorlist
 
 ### Install base system
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
+    
 
-    # pacstrap /mnt base base-devel bash-completion dhcpcd git linux linux-headers linux-firmware lvm2 mkinitcpio openssh os-prober vim wpa_supplicant
+    # pacman -Syy && pacstrap /mnt base base-devel bash-completion linux linux-headers linux-firmware git vim intel-ucode lvm2 mkinitcpio openssh os-prober  wpa_supplicant grub efibootmgr networkmanager network-manager-applet dialog mtools dosfstools bluez bluez-utils cups xdg-utils xdg-user-dirs alsa-utils pulseaudio pulseaudio-bluetooth reflector sudo xf86-video-intel xorg i3 dmenu lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings ttf-dejavu ttf-liberation noto-fonts firefox nitrogen picom lxappearance pcmanfm materia-gtk-theme papirus-icon-theme xfce4-terminal wget curl htop zsh tmux
 
 ### Generate fstab file
 
@@ -277,7 +250,6 @@ Add matching entries to `/etc/hosts` file:
 
 ### Create regular user with sudo privileges
 
-    # pacman -S sudo
     # useradd -m -g users -G wheel -s /bin/bash myusername
     # passwd myusername
     # visudo
@@ -303,7 +275,6 @@ We previously installed only the `linux` kernel, so we need to run this to gener
 
 Choose and install a Linux-capable boot loader. If you have an Intel or AMD CPU, enable `microcode` updates in addition.
 
-    # pacman -S grub efibootmgr
     # grub-install --target=x86_64-efi --bootloader-id=GRUB --efi-directory=/boot
 
 In the file `/etc/default/grub` edit the line `GRUB_CMDLINE_LINUX` to:
@@ -318,19 +289,23 @@ Also uncomment the line:
 
     # GRUB_ENABLE_CRYPTODISK=y
 
-If you have an Intel CPU, enable microcode updates in addition.
-
-    # pacman -S intel-ucode
-
 Generate GRUB's configuration file:
 
     # grub-mkconfig -o /boot/grub/grub.cfg
+    
+Enable Network Manager
+
+    # systemctl enable NetworkManager
+    # systemctl enable bluetooth
+    # systemctl enable cups
 
 Now you are ready to reboot and test your installation:
 
     # exit
     # umount /mnt
     # reboot
+    
+After rebooting use nmtui to get connected to the WiFi. 
 
 ## Post-installation
 
