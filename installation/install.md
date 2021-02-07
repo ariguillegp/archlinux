@@ -197,7 +197,7 @@ Get the good mirror list with reflector and save it to mirrorlist. You can chang
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
     
 
-    # pacman -Syy && pacstrap /mnt base base-devel bash-completion linux linux-headers linux-firmware git vim intel-ucode lvm2 mkinitcpio openssh os-prober  wpa_supplicant grub efibootmgr networkmanager network-manager-applet dialog mtools dosfstools bluez bluez-utils cups xdg-utils xdg-user-dirs alsa-utils pulseaudio pulseaudio-bluetooth reflector sudo xf86-video-intel xorg i3 dmenu lightdm lightdm-gtk-greeter lightdm-gtk-greeter-settings ttf-dejavu ttf-liberation noto-fonts firefox nitrogen picom lxappearance pcmanfm materia-gtk-theme papirus-icon-theme xfce4-terminal wget curl htop zsh tmux
+    # pacman -Syy && pacstrap /mnt base base-devel bash-completion linux linux-headers linux-firmware git vim intel-ucode lvm2 mkinitcpio openssh os-prober  wpa_supplicant grub efibootmgr networkmanager network-manager-applet dialog mtools dosfstools python lua bluez bluez-utils cups xdg-utils xdg-user-dirs alsa-utils pulseaudio pulseaudio-bluetooth pulseaudio-alsa pulseaudio-equalizer pulseaudio-jack reflector sudo xf86-video-intel
 
 ### Generate fstab file
 
