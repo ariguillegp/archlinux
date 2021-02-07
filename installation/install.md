@@ -1,4 +1,4 @@
-# Arch Linux Installation Guide (LUKS on LVM) - 2020.10.01
+# Arch Linux Installation Guide (LUKS on LVM) - 2021.01.20
 
 This document is a guide for installing Arch Linux using the live system booted from an installation medium made from an official installation image.
 
