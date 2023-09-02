@@ -195,7 +195,7 @@ Get the good mirror list with reflector and save it to mirrorlist. You can chang
 ### Install base system
 
 The `base` package does not include all tools from the live installation, so installing other packages may be necessary for a fully functional base system.
-    
+
 
     # pacman -Syy && pacstrap /mnt base base-devel bash-completion linux linux-headers linux-firmware git vim intel-ucode lvm2 mkinitcpio openssh os-prober  wpa_supplicant grub efibootmgr networkmanager network-manager-applet dialog mtools dosfstools python lua bluez bluez-utils cups xdg-utils xdg-user-dirs alsa-utils pulseaudio pulseaudio-bluetooth pulseaudio-alsa pulseaudio-equalizer pulseaudio-jack reflector sudo xf86-video-intel
 
@@ -292,7 +292,7 @@ Also uncomment the line:
 Generate GRUB's configuration file:
 
     # grub-mkconfig -o /boot/grub/grub.cfg
-    
+
 Enable Network Manager
 
     # systemctl enable NetworkManager
@@ -304,8 +304,8 @@ Now you are ready to reboot and test your installation:
     # exit
     # umount /mnt
     # reboot
-    
-After rebooting use nmtui to get connected to the WiFi. 
+
+After rebooting use nmtui to get connected to the WiFi.
 
 ## Post-installation
 
