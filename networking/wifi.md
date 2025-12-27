@@ -18,7 +18,9 @@ The package `wpa_supplicant` can configure network interfaces and connect to wir
     
 2. Generate the file `/etc/wpa_supplicant/wpa_supplicant-wlp1s0.conf` by using the utility `wpa_passphrase`, which is also part of the `wpa_supplicant` package
 
-       # wpa_passphrase your-SSID your-PASS | sudo tee /etc/wpa_supplicant/wpa_supplicant-wlp1s0.conf
+       # wpa_passphrase your-SSID | sudo tee /etc/wpa_supplicant/wpa_supplicant-wlp1s0.conf
+
+   **Note**: Do NOT include the password as a command-line argument to avoid it being stored in shell history. When you run the command above, `wpa_passphrase` will prompt you to enter the password interactively, which is more secure.
        
 Open the ouput file and be sure it looks similar to this one (add anything that's missing)
 
